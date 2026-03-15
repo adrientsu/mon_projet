@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutoriels Vidéo - Formation Complète</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation simplifiée */
+        .navbar {
+            background: #0b1a2e;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff7f50;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 100px auto 0;
+            padding: 20px;
+        }
+
+        /* Header */
+        .page-header {
+            background: linear-gradient(135deg, #0b1a2e, #1a2f42);
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: white;
+            border: 3px solid #ff7f50;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header h1 span {
+            color: #ff7f50;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Grille des tutoriels */
+        .tutoriels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .tutoriel-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-left: 4px solid #ff7f50;
+        }
+
+        .tutoriel-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255,127,80,0.3);
+        }
+
+        .tutoriel-header {
+            background: #0b1a2e;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .tutoriel-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .tutoriel-header h2 {
+            color: #ff7f50;
+            font-size: 2rem;
+        }
+
+        .tutoriel-body {
+            padding: 25px;
+        }
+
+        .tutoriel-description {
+            color: #4a5568;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .playlist-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 3px solid #ff7f50;
+        }
+
+        .playlist-info p {
+            margin: 5px 0;
+            color: #0b1a2e;
+        }
+
+        .playlist-info strong {
+            color: #ff7f50;
+        }
+
+        .youtube-btn {
+            display: block;
+            background: #ff0000;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+
+        .youtube-btn:hover {
+            background: #cc0000;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(255,0,0,0.3);
+        }
+
+        .video-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .video-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video-list li:last-child {
+            border-bottom: none;
+        }
+
+        .video-number {
+            background: #ff7f50;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .video-title {
+            flex: 1;
+            color: #0b1a2e;
+        }
+
+        .tutoriel-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .tutoriel-level {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .level-debutant {
+            background: #2ecc71;
+        }
+
+        .level-intermediaire {
+            background: #3498db;
+        }
+
+        .level-avance {
+            background: #e74c3c;
+        }
+
+        .tutoriel-videos {
+            color: #718096;
+        }
+
+        .tutoriel-videos i {
+            color: #ff7f50;
+            margin-right: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0b1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+            border-radius: 20px 20px 0 0;
+            border-top: 5px solid #ff7f50;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                margin-top: 80px;
+            }
+
+            .page-header {
+                padding: 30px 20px;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .tutoriels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation simplifiée -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Tuto<span>Vidéo</span></div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>📺 <span>Tutoriels Vidéo</span></h1>
+            <p>Playlists YouTube sélectionnées pour apprendre la programmation et l'administration système</p>
+        </div>
+
+        <!-- Grille des tutoriels -->
+        <div class="tutoriels-grid">
+            <!-- HTML -->
+            <div class="tutoriel-card">
+                <div class="tutoriel-header">
+                    <div class="tutoriel-icon">🌐</div>
+                    <h2>HTML Complet</h2>
+                </div>
+                <div class="tutoriel-body">
+                    <p class="tutoriel-description">Apprenez les bases du HTML : structure, balises, formulaires, tableaux et sémantique.</p>
+                    
+                    <div class="playlist-info">
+                        <p><strong>Chaîne :</strong> Grafikart</p>
+                        <p><strong>Playlist :</strong> Apprendre HTML5</p>
+                        <p><strong>Vidéos :</strong> 25 tutoriels</p>
+                    </div>
+
+                    <a href="https://www.youtube.com/watch?v=qsbkZ7gIKnc&list=PLjwdMgw5TTLVjTZQocrMwKicV5wsZlRpj" target="_blank" class="youtube-btn">
+                        ▶ Regarder la playlist HTML
+                    </a>
+
+                    <ul class="video-list">
+                        <li>
+                            <span class="video-number">1</span>
+                            <span class="video-title">Introduction au HTML</span>
+                        </li>
+                        <li>
+                            <span class="video-number">2</span>
+                            <span class="video-title">Les balises de base</span>
+                        </li>
+                        <li>
+                            <span class="video-number">3</span>
+                            <span class="video-title">Les formulaires</span>
+                        </li>
+                    </ul>
+
+                    <div class="tutoriel-meta">
+                        <span class="tutoriel-level level-debutant">Débutant</span>
+                        <span class="tutoriel-videos">📹 25 vidéos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS -->
+            <div class="tutoriel-card">
+                <div class="tutoriel-header">
+                    <div class="tutoriel-icon">🎨</div>
+                    <h2>CSS Complet</h2>
+                </div>
+                <div class="tutoriel-body">
+                    <p class="tutoriel-description">Maîtrisez CSS : sélecteurs, flexbox, grid, animations et responsive design.</p>
+                    
+                    <div class="playlist-info">
+                        <p><strong>Chaîne :</strong> Envato Tuts+</p>
+                        <p><strong>Playlist :</strong> Apprendre CSS</p>
+                        <p><strong>Vidéos :</strong> 30 tutoriels</p>
+                    </div>
+
+                    <a href="https://www.youtube.com/watch?v=OXGznpKZ_sA&list=PL4cUxeGkcC9gQeDH6xYhmO-db2mhoTSrT" target="_blank" class="youtube-btn">
+                        ▶ Regarder la playlist CSS
+                    </a>
+
+                    <ul class="video-list">
+                        <li>
+                            <span class="video-number">1</span>
+                            <span class="video-title">Introduction à CSS</span>
+                        </li>
+                        <li>
+                            <span class="video-number">2</span>
+                            <span class="video-title">Les sélecteurs CSS</span>
+                        </li>
+                        <li>
+                            <span class="video-number">3</span>
+                            <span class="video-title">Flexbox expliqué</span>
+                        </li>
+                    </ul>
+
+                    <div class="tutoriel-meta">
+                        <span class="tutoriel-level level-debutant">Débutant</span>
+                        <span class="tutoriel-videos">📹 30 vidéos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JavaScript -->
+            <div class="tutoriel-card">
+                <div class="tutoriel-header">
+                    <div class="tutoriel-icon">⚡</div>
+                    <h2>JavaScript</h2>
+                </div>
+                <div class="tutoriel-body">
+                    <p class="tutoriel-description">Programmation JavaScript : variables, fonctions, DOM, événements et API.</p>
+                    
+                    <div class="playlist-info">
+                        <p><strong>Chaîne :</strong> From Scratch</p>
+                        <p><strong>Playlist :</strong> Cours JavaScript</p>
+                        <p><strong>Vidéos :</strong> 40 tutoriels</p>
+                    </div>
+
+                    <a href="https://www.youtube.com/watch?v=W6NZfCO5SIk&list=PLMS9Cy4Enq5JjIZslw1A1ePE5rRhNBIp2" target="_blank" class="youtube-btn">
+                        ▶ Regarder la playlist JavaScript
+                    </a>
+
+                    <ul class="video-list">
+                        <li>
+                            <span class="video-number">1</span>
+                            <span class="video-title">Introduction à JS</span>
+                        </li>
+                        <li>
+                            <span class="video-number">2</span>
+                            <span class="video-title">Les variables</span>
+                        </li>
+                        <li>
+                            <span class="video-number">3</span>
+                            <span class="video-title">Les fonctions</span>
+                        </li>
+                    </ul>
+
+                    <div class="tutoriel-meta">
+                        <span class="tutoriel-level level-intermediaire">Intermédiaire</span>
+                        <span class="tutoriel-videos">📹 40 vidéos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Python -->
+            <div class="tutoriel-card">
+                <div class="tutoriel-header">
+                    <div class="tutoriel-icon">🐍</div>
+                    <h2>Python</h2>
+                </div>
+                <div class="tutoriel-body">
+                    <p class="tutoriel-description">Apprenez Python : syntaxe, structures de données, POO et projets pratiques.</p>
+                    
+                    <div class="playlist-info">
+                        <p><strong>Chaîne :</strong> Docstring</p>
+                        <p><strong>Playlist :</strong> Cours Python complet</p>
+                        <p><strong>Vidéos :</strong> 35 tutoriels</p>
+                    </div>
+
+                    <a href="https://www.youtube.com/watch?v=HWxBtxPBCAc&list=PLzV58Zm8FuBL6OAvVo4e4naX4Ki1p2T_s" target="_blank" class="youtube-btn">
+                        ▶ Regarder la playlist Python
+                    </a>
+
+                    <ul class="video-list">
+                        <li>
+                            <span class="video-number">1</span>
+                            <span class="video-title">Introduction à Python</span>
+                        </li>
+                        <li>
+                            <span class="video-number">2</span>
+                            <span class="video-title">Variables et types</span>
+                        </li>
+                        <li>
+                            <span class="video-number">3</span>
+                            <span class="video-title">Les conditions</span>
+                        </li>
+                    </ul>
+
+                    <div class="tutoriel-meta">
+                        <span class="tutoriel-level level-debutant">Débutant</span>
+                        <span class="tutoriel-videos">📹 35 vidéos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commandes Linux -->
+            <div class="tutoriel-card">
+                <div class="tutoriel-header">
+                    <div class="tutoriel-icon">🐧</div>
+                    <h2>Commandes Linux</h2>
+                </div>
+                <div class="tutoriel-body">
+                    <p class="tutoriel-description">Maîtrisez le terminal Linux : commandes essentielles, scripts bash et administration.</p>
+                    
+                    <div class="playlist-info">
+                        <p><strong>Chaîne :</strong> Grafikart</p>
+                        <p><strong>Playlist :</strong> Apprendre Linux</p>
+                        <p><strong>Vidéos :</strong> 20 tutoriels</p>
+                    </div>
+
+                    <a href="https://www.youtube.com/watch?v=ZtqBQ68cfJc&list=PLjwdMgw5TTLVjTZQocrMwKicV5wsZlRpj" target="_blank" class="youtube-btn">
+                        ▶ Regarder la playlist Linux
+                    </a>
+
+                    <ul class="video-list">
+                        <li>
+                            <span class="video-number">1</span>
+                            <span class="video-title">Introduction à Linux</span>
+                        </li>
+                        <li>
+                            <span class="video-number">2</span>
+                            <span class="video-title">Commandes de base</span>
+                        </li>
+                        <li>
+                            <span class="video-number">3</span>
+                            <span class="video-title">Gestion des fichiers</span>
+                        </li>
+                    </ul>
+
+                    <div class="tutoriel-meta">
+                        <span class="tutoriel-level level-intermediaire">Intermédiaire</span>
+                        <span class="tutoriel-videos">📹 20 vidéos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PostgreSQL -->
+            <div class="tutoriel-card">
+                <div class="tutoriel-header">
+                    <div class="tutoriel-icon">🗄️</div>
+                    <h2>PostgreSQL / SQL</h2>
+                </div>
+                <div class="tutoriel-body">
+                    <p class="tutoriel-description">Apprenez SQL avec PostgreSQL : requêtes, jointures, index et optimisation.</p>
+                    
+                    <div class="playlist-info">
+                        <p><strong>Chaîne :</strong> Grafikart</p>
+                        <p><strong>Playlist :</strong> Apprendre SQL</p>
+                        <p><strong>Vidéos :</strong> 25 tutoriels</p>
+                    </div>
+
+                    <a href="https://www.youtube.com/watch?v=5bZ0qWXwVLA&list=PLjwdMgw5TTLWvwD5H2xd2k5Y5P0F5rPcT" target="_blank" class="youtube-btn">
+                        ▶ Regarder la playlist SQL
+                    </a>
+
+                    <ul class="video-list">
+                        <li>
+                            <span class="video-number">1</span>
+                            <span class="video-title">Introduction à SQL</span>
+                        </li>
+                        <li>
+                            <span class="video-number">2</span>
+                            <span class="video-title">SELECT et filtres</span>
+                        </li>
+                        <li>
+                            <span class="video-number">3</span>
+                            <span class="video-title">Les jointures</span>
+                        </li>
+                    </ul>
+
+                    <div class="tutoriel-meta">
+                        <span class="tutoriel-level level-intermediaire">Intermédiaire</span>
+                        <span class="tutoriel-videos">📹 25 vidéos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WAMP / XAMPP Installation -->
+            <div class="tutoriel-card">
+                <div class="tutoriel-header">
+                    <div class="tutoriel-icon">⚙️</div>
+                    <h2>WAMP / XAMPP</h2>
+                </div>
+                <div class="tutoriel-body">
+                    <p class="tutoriel-description">Installez et configurez vos serveurs locaux WAMP (Windows) et XAMPP (multi-plateforme).</p>
+                    
+                    <div class="playlist-info">
+                        <p><strong>Chaîne :</strong> Divers tutoriels</p>
+                        <p><strong>Sujet :</strong> Installation serveur local</p>
+                        <p><strong>Vidéos :</strong> Tutoriels sélectionnés</p>
+                    </div>
+
+                    <a href="https://www.youtube.com/watch?v=O9iM4pKdJkI" target="_blank" class="youtube-btn">
+                        ▶ Installer WAMP
+                    </a>
+
+                    <a href="https://www.youtube.com/watch?v=_-2C4UcZ4oY" target="_blank" class="youtube-btn" style="margin-top: 10px;">
+                        ▶ Installer XAMPP
+                    </a>
+
+                    <ul class="video-list">
+                        <li>
+                            <span class="video-number">1</span>
+                            <span class="video-title">Installation WAMP pas à pas</span>
+                        </li>
+                        <li>
+                            <span class="video-number">2</span>
+                            <span class="video-title">Installation XAMPP complet</span>
+                        </li>
+             

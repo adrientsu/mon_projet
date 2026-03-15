@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation WAMP et XAMPP - Guide Complet</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #1e272e;
+            line-height: 1.7;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: #0b1a2e;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff7f50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #ff7f50;
+            color: white;
+        }
+
+        /* ===== LAYOUT PRINCIPAL ===== */
+        .main-container {
+            max-width: 1400px;
+            margin: 90px auto 0;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            background: #0b1a2e;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #ff7f50;
+        }
+
+        .sidebar-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-menu {
+            padding: 20px;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #0b1a2e;
+            margin-bottom: 10px;
+            border-left: 4px solid #ff7f50;
+            font-size: 1.1rem;
+        }
+
+        .section-links {
+            list-style: none;
+            margin-left: 10px;
+        }
+
+        .section-links li {
+            margin: 5px 0;
+        }
+
+        .section-links a {
+            display: block;
+            padding: 8px 15px 8px 25px;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .section-links a::before {
+            content: '▹';
+            position: absolute;
+            left: 5px;
+            color: #ff7f50;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .section-links a:hover {
+            background: #f8f9fa;
+            color: #ff7f50;
+            padding-left: 30px;
+        }
+
+        .section-links a:hover::before {
+            opacity: 1;
+        }
+
+        /* ===== CONTENU PRINCIPAL ===== */
+        .content-area {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* ===== EN-TÊTE ===== */
+        .page-header {
+            background: linear-gradient(135deg, #0b1a2e, #1a2f42);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #ff7f50;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ===== SECTIONS ===== */
+        .lesson-section {
+            padding: 40px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .lesson-section:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-section h2 {
+            font-size: 2.2rem;
+            color: #0b1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #ff7f50;
+            display: inline-block;
+        }
+
+        .lesson-section h3 {
+            font-size: 1.6rem;
+            color: #1e3c5a;
+            margin: 30px 0 15px;
+        }
+
+        .lesson-section h4 {
+            font-size: 1.2rem;
+            color: #2d4a6e;
+            margin: 20px 0 10px;
+        }
+
+        .lesson-section p {
+            color: #2d3e50;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .lesson-section ul, 
+        .lesson-section ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+            color: #2d3e50;
+        }
+
+        .lesson-section li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== BLOCS DE CODE ===== */
+        .code-block {
+            background: #1e2b3a;
+            border-radius: 12px;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .code-header {
+            background: #0f1a24;
+            padding: 10px 20px;
+            color: #fff;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2d4055;
+        }
+
+        .code-header span {
+            color: #ff7f50;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-header .badge {
+            background: #ff7f50;
+            color: #0b1a2e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .code-block pre {
+            padding: 20px;
+            color: #e8e8e8;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* ===== CARTES D'INFORMATION ===== */
+        .info-card {
+            background: #e1f0fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .warning-card {
+            background: #fde9e9;
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .tip-card {
+            background: #e8f5e9;
+            border-left: 4px solid #2ecc71;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== TABLEAUX COMPARAISON ===== */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: #0b1a2e;
+            color: white;
+            padding: 15px;
+            font-size: 1.1rem;
+        }
+
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            vertical-align: top;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .comparison-table .feature-yes {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .comparison-table .feature-no {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        /* ===== ÉTAPES INSTALLATION ===== */
+        .step-container {
+            margin: 30px 0;
+        }
+
+        .step-item {
+            display: flex;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .step-number {
+            background: #ff7f50;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .step-content h4 {
+            color: #0b1a2e;
+            margin-bottom: 10px;
+        }
+
+        /* ===== SCREENSHOT PLACEHOLDER ===== */
+        .screenshot-placeholder {
+            background: #e9ecef;
+            border: 2px dashed #adb5bd;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            color: #6c757d;
+        }
+
+        .screenshot-placeholder i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0b1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-section {
+                padding: 20px;
+            }
+            
+            .step-item {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Dev<span>Env</span></div>
+            <ul class="nav-links">
+                <li><a href="#accueil" class="active">Accueil</a></li>
+                <li><a href="#wamp">WAMP</a></li>
+                <li><a href="#xampp">XAMPP</a></li>
+                <li><a href="#comparaison">Comparaison</a></li>
+                <li><a href="#utilisation">Utilisation</a></li>
+                <li><a href="#depannage">Dépannage</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar avec ancres -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>⚙️ WAMP & XAMPP</h3>
+                <p>Guide d'installation complet</p>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="section-title">📦 WAMP</div>
+                    <ul class="section-links">
+                        <li><a href="#wamp-presentation">Présentation</a></li>
+                        <li><a href="#wamp-installation">Installation</a></li>
+                        <li><a href="#wamp-configuration">Configuration</a></li>
+                        <li><a href="#wamp-utilisation">Utilisation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">🔄 XAMPP</div>
+                    <ul class="section-links">
+                        <li><a href="#xampp-presentation">Présentation</a></li>
+                        <li><a href="#xampp-installation">Installation</a></li>
+                        <li><a href="#xampp-configuration">Configuration</a></li>
+                        <li><a href="#xampp-utilisation">Utilisation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">⚖️ COMPARAISON</div>
+                    <ul class="section-links">
+                        <li><a href="#comparaison-tableau">Tableau comparatif</a></li>
+                        <li><a href="#choix">Quel choix ?</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">🔧 PRATIQUE</div>
+                    <ul class="section-links">
+                        <li><a href="#premier-script">Premier script</a></li>
+                        <li><a href="#base-donnees">Base de données</a></li>
+                        <li><a href="#depannage">Dépannage</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="content-area">
+            <!-- En-tête -->
+            <div class="page-header" id="accueil">
+                <h1>Installation WAMP et XAMPP</h1>
+                <p>Guides complets pour installer et configurer vos environnements de développement web</p>
+            </div>
+
+            <!-- Introduction -->
+            <section class="lesson-section">
+                <div class="info-card">
+                    <div class="card-title">🌐 Qu'est-ce qu'un serveur local ?</div>
+                    <p>Un serveur local (WAMP, XAMPP, MAMP, LAMP) est un environnement de développement qui simule un serveur web sur votre ordinateur. Il permet de développer et tester des sites web dynamiques (PHP, MySQL) sans avoir besoin d'un hébergement en ligne.</p>
+                </div>
+
+                <h3>Composants communs</h3>
+                <ul>
+                    <li><strong>Apache</strong> : Serveur web HTTP</li>
+                    <li><strong>PHP</strong> : Langage de programmation côté serveur</li>
+                    <li><strong>MySQL / MariaDB</strong> : Système de gestion de base de données</li>
+                    <li><strong>phpMyAdmin</strong> : Interface web pour gérer les bases de données</li>
+                </ul>
+            </section>
+
+            <!-- SECTION WAMP -->
+            <section class="lesson-section" id="wamp-presentation">
+                <h2>📦 WAMP (Windows, Apache, MySQL, PHP)</h2>
+                
+                <div class="info-card" style="background: #fff3cd; border-left-color: #ffc107;">
+                    <div class="card-title">🪟 Spécifique Windows</div>
+                    <p>WAMP est conçu exclusivement pour Windows. Il s'intègre parfaitement avec le système d'exploitation Microsoft.</p>
+                </div>
+
+                <h3>Présentation</h3>
+                <p>WAMP est un environnement de développement pour Windows qui permet de faire tourner localement un serveur web Apache, une base de données MySQL et le langage PHP.</p>
+
+                <table class="comparison-table">
+                    <tr>
+                        <th>Caractéristique</th>
+                        <th>Détail</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Dernière version</strong></td>
+                        <td>WAMP 3.3.0 (64-bit)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PHP inclus</strong></td>
+                        <td>PHP 8.2, 8.1, 8.0, 7.4, 7.3, 7.2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MySQL/MariaDB</strong></td>
+                        <td>MariaDB 10.11, 10.10, 10.9, 10.8, 10.6, 10.5, 10.4, 10.3, 10.2<br>MySQL 8.0, 5.7</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Apache</strong></td>
+                        <td>Apache 2.4</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Interface</strong></td>
+                        <td>Icône dans la barre des tâches + interface web</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section class="lesson-section" id="wamp-installation">
+                <h3>📥 Installation de WAMP (étape par étape)</h3>
+
+                <div class="step-container">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Téléchargement</h4>
+                            <p>Rendez-vous sur le site officiel : <a href="https://www.wampserver.com/" target="_blank">https://www.wampserver.com/</a></p>
+                            <p>Choisissez la version adaptée à votre système (32-bit ou 64-bit).</p>
+                            <div class="tip-card">
+                                <strong>💡 Vérifiez votre architecture :</strong> Faites un clic droit sur "Ce PC" → Propriétés pour voir si votre Windows est en 32 ou 64 bits.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Prérequis : Visual C++ Redistributable</h4>
+                            <p>WAMP nécessite les paquets Visual C++ Redistributable. Si vous ne les avez pas, l'installateur vous proposera de les télécharger.</p>
+                            <div class="code-block">
+                                <div class="code-header"><span>Paquets nécessaires</span></div>
+                                <pre>- Visual C++ Redistributable for Visual Studio 2012
+- Visual C++ Redistributable for Visual Studio 2013
+- Visual C++ Redistributable for Visual Studio 2015-2022 (x64)</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Lancer l'installation</h4>
+                            <p>Exécutez le fichier téléchargé (wampserver.exe).</p>
+                            <ul>
+                                <li>Acceptez la licence</li>
+                                <li>Choisissez le dossier d'installation (par défaut : <code>C:\wamp64</code>)</li>
+                                <li>Choisissez votre navigateur par défaut (Firefox, Chrome, etc.)</li>
+                                <li>Choisissez votre éditeur de texte par défaut (Notepad++, VS Code, etc.)</li>
+                            </ul>
+                            <div class="screenshot-placeholder">
+                                <i>🖼️</i>
+                                <p>Interface d'installation WAMP</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-it

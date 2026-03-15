@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours Administration Réseau Complet - De Zéro à Expert</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #1e272e;
+            line-height: 1.7;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: #0b1a2e;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff7f50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #ff7f50;
+            color: white;
+        }
+
+        /* ===== LAYOUT PRINCIPAL ===== */
+        .main-container {
+            max-width: 1400px;
+            margin: 90px auto 0;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            background: #0b1a2e;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #ff7f50;
+        }
+
+        .sidebar-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-menu {
+            padding: 20px;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #0b1a2e;
+            margin-bottom: 10px;
+            border-left: 4px solid #ff7f50;
+            font-size: 1.1rem;
+        }
+
+        .section-links {
+            list-style: none;
+            margin-left: 10px;
+        }
+
+        .section-links li {
+            margin: 5px 0;
+        }
+
+        .section-links a {
+            display: block;
+            padding: 8px 15px 8px 25px;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .section-links a::before {
+            content: '▹';
+            position: absolute;
+            left: 5px;
+            color: #ff7f50;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .section-links a:hover {
+            background: #f8f9fa;
+            color: #ff7f50;
+            padding-left: 30px;
+        }
+
+        .section-links a:hover::before {
+            opacity: 1;
+        }
+
+        /* ===== CONTENU PRINCIPAL ===== */
+        .content-area {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* ===== EN-TÊTE ===== */
+        .page-header {
+            background: linear-gradient(135deg, #0b1a2e, #1a2f42);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #ff7f50;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ===== SECTIONS DE LEÇONS ===== */
+        .lesson-section {
+            padding: 40px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .lesson-section:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-section h2 {
+            font-size: 2.2rem;
+            color: #0b1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #ff7f50;
+            display: inline-block;
+        }
+
+        .lesson-section h3 {
+            font-size: 1.6rem;
+            color: #1e3c5a;
+            margin: 30px 0 15px;
+        }
+
+        .lesson-section h4 {
+            font-size: 1.2rem;
+            color: #2d4a6e;
+            margin: 20px 0 10px;
+        }
+
+        .lesson-section p {
+            color: #2d3e50;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .lesson-section ul, 
+        .lesson-section ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+            color: #2d3e50;
+        }
+
+        .lesson-section li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== BLOCS DE CODE ===== */
+        .code-block {
+            background: #1e2b3a;
+            border-radius: 12px;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .code-header {
+            background: #0f1a24;
+            padding: 10px 20px;
+            color: #fff;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2d4055;
+        }
+
+        .code-header span {
+            color: #ff7f50;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-header .badge {
+            background: #ff7f50;
+            color: #0b1a2e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .code-block pre {
+            padding: 20px;
+            color: #e8e8e8;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Syntax Highlighting pour commandes réseau */
+        .cmd-command { color: #ff9f7c; font-weight: bold; }
+        .cmd-option { color: #b3d9ff; }
+        .cmd-argument { color: #ffd966; }
+        .cmd-output { color: #e8e8e8; }
+        .cmd-comment { color: #7c9c7c; }
+        .cmd-prompt { color: #ff7f50; }
+
+        /* ===== CARTES D'INFORMATION ===== */
+        .info-card {
+            background: #e1f0fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .warning-card {
+            background: #fde9e9;
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .tip-card {
+            background: #e8f5e9;
+            border-left: 4px solid #2ecc71;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== EXEMPLES DE RÉSULTATS ===== */
+        .demo-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .demo-title {
+            font-weight: 700;
+            color: #0b1a2e;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .network-output {
+            background: #1e2b3a;
+            color: #e8e8e8;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        /* ===== TABLEAUX ===== */
+        .table-demo {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table-demo th,
+        .table-demo td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table-demo th {
+            background: #0b1a2e;
+            color: white;
+        }
+
+        .table-demo tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* ===== SCHÉMAS RÉSEAU ===== */
+        .network-diagram {
+            background: #f0f0f0;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .network-device {
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 10px;
+            background: #ff7f50;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .network-connect {
+            display: inline-block;
+            margin: 0 10px;
+            color: #666;
+            font-size: 1.5rem;
+        }
+
+        .ip-range {
+            background: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 0 5px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0b1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-section {
+                padding: 20px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lesson-section {
+            animation: fadeIn 0.5s ease-out;
+        }
+        .btn-retour {
+        background-color: #ff7f00; /* orange be */
+        color: white; /* texte fotsy */
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center; /* texte eo afovoany */
+        display: inline-block;
+        text-decoration: none;
+        transition: 0.3s;
+        }
+        
+        .btn-retour:hover {
+        background-color: #e67300; /* orange matevina kokoa rehefa hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Net<span>Master</span></div>
+            <ul class="nav-links">
+                <li><a href="#accueil" class="active">Accueil</a></li>
+                <li><a href="#bases">Bases</a></li>
+                <li><a href="#ip">IP & Routage</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#securite">Sécurité</a></li>
+                <li><a href="#depannage">Dépannage</a></li>
+                <li><a href="#scripts">Scripts</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar avec ancres -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>🌐 Administration Réseau</h3>
+                <p>20 leçons complètes</p>
+            </div>
+            
+            <div class="sidebar-menu">
+                <!-- Section 1: Fondamentaux -->
+                <div class="menu-section">
+                    <div class="section-title">🔰 FONDAMENTAUX</div>
+                    <ul class="section-links">
+                        <li><a href="#lecon1">1. Introduction aux réseaux</a></li>
+                        <li><a href="#lecon2">2. Modèle OSI et TCP/IP</a></li>
+                        <li><a href="#lecon3">3. Adressage IP (IPv4)</a></li>
+                        <li><a href="#lecon4">4. Adressage IP (IPv6)</a></li>
+                        <li><a href="#lecon5">5. Masques et CIDR</a></li>
+                        <li><a href="#lecon6">6. MAC Address et ARP</a></li>
+                    </ul>
+                </div>
+
+                <!-- Section 2: Équipements et configuration -->
+                <div class="menu-section">
+                    <div class="section-title">🖧 ÉQUIPEMENTS RÉSEAU</div>
+                    <ul class="section-links">
+                        <li><a href="#lecon7">7. Routeurs et routage</a></li>
+                        <li><a href="#lecon8">8. Switches et VLAN</a></li>
+                        <li><a href="#lecon9">9. Configuration Cisco (IOS)</a></li>
+                        <li><a href="#lecon10">10. DHCP</a></li>
+                        <li><a href="#lecon11">11. DNS</a></li>
+                        <li><a href="#lecon12">12. NAT et PAT</a></li>
+                    </ul>
+                </div>
+
+                <!-- Section 3: Services et sécurité -->
+                <div class="menu-section">
+                    <div class="section-title">🔒 SÉCURITÉ ET SERVICES</div>
+                    <ul class="section-links">
+                        <li><a href="#lecon13">13. Firewall et ACL</a></li>
+                        <li><a href="#lecon14">14. VPN</a></li>
+                        <li><a href="#lecon15">15. Surveillance (SNMP, NetFlow)</a></li>
+                        <li><a href="#lecon16">16. Dépannage réseau</a></li>
+                        <li><a href="#lecon17">17. Wireshark et analyse</a></li>
+                        <li><a href="#lecon18">18. Scripts d'automatisation</a></li>
+                    </ul>
+                </div>
+
+                <!-- Section 4: Projets -->
+                <div class="menu-section">
+                    <div class="section-title">⚡ PROJETS PRATIQUES</div>
+                    <ul class="section-links">
+                        <li><a href="#lecon19">19. Architecture d'entreprise</a></li>
+                        <li><a href="#lecon20">20. Projet final - Datacenter</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="content-area">
+            <!-- En-tête -->
+            <div class="page-header" id="accueil">
+                <h1>Maîtrisez l'Administration Réseau de A à Z</h1>
+                <p>20 leçons détaillées avec commandes, configurations et exemples pratiques</p>
+            </div>
+
+            <!-- LEÇON 1: Introduction aux réseaux -->
+            <section class="lesson-section" id="lecon1">
+                <h2>🌐 Leçon 1: Introduction aux réseaux</h2>
+                
+                <h3>Qu'est-ce qu'un réseau ?</h3>
+                <p>Un réseau informatique est un ensemble d'équipements interconnectés qui échangent des informations. L'administrateur réseau est responsable de la conception, l'installation, la maintenance et la sécurité de ces infrastructures.</p>
+
+                <div class="info-card">
+                    <div class="card-title">💡 Rôle de l'administrateur réseau</div>
+                    <ul>
+                        <li>Configuration des équipements (routeurs, switches, firewalls)</li>
+                        <li>Gestion des adresses IP et du routage</li>
+                        <li>Surveillance et maintenance</li>
+                        <li>Sécurité et pare-feu</li>
+                        <li>Dépannage des incidents</li>
+                    </ul>
+                </div>
+
+                <h3>Types de réseaux</h3>
+
+                <table class="table-demo">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Portée</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>LAN</td><td>Local Area Network</td><td>Bâtiment, entreprise</td></tr>
+                        <tr><td>WAN</td><td>Wide Area Network</td><td>Ville, pays, monde</td></tr>
+                        <tr><td>MAN</td><td>Metropolitan Area Network</td><td>Ville, campus</td></tr>
+                        <tr><td>PAN</td><td>Personal Area Network</td><td>Bluetooth, USB</td></tr>
+                        <tr><td>WLAN</td><td>Wireless LAN</td><td>Wi-Fi</td></tr>
+                        <tr><td>VPN</td><td>Virtual Private Network</td><td>Tunnel sécurisé</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Topologies réseau</h3>
+
+                <div class="network-diagram">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap;">
+                        <div style="margin: 20px;">
+                            <strong>Étoile</strong><br>
+                            <span class="network-device" style="background: #3498db;">Switch</span><br>
+                            <span class="network-device" style="background: #ff7f50;">PC</span>
+                            <span class="network-connect">─</span>
+                            <span class="network-device" style="background: #ff7f50;">PC</span>
+                            <span class="network-connect">─</span>
+                            <span class="network-device" style="background: #ff7f50;">PC</span>
+                        </div>
+                        <div style="margin: 20px;">
+                            <strong>Bus</strong><br>
+                            <span class="network-device" style="background: #ff7f50;">PC</span>
+                            <span class="network-connect">═</span>
+                            <span class="network-device" style="background: #ff7f50;">PC</span>
+                            <span class="network-connect">═</span>
+                            <span class="network-device" style="background: #ff7f50;">PC</span>
+                        </div>
+                        <div style="margin: 20px;">
+                            <strong>Anneau</strong><br>
+                            <span class="network-device" style="background: #ff7f50;">PC</span>
+                            <span class="network-connect">⇄</span>
+                            <span class="network-device" style="background: #ff7f50;">PC</span>
+                            <span class="network-connect">⇅</span>
+                            <span class="network-device" style="background: #ff7f50;">PC</span>
+                   

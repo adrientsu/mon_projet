@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>MySQL A-Z - Cours complet de bases de données</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        :root {
+            --bleu-fonce: #0b1a2e;
+            --orange: #ff7f50;
+            --orange-hover: #ff6b6b;
+            --blanc: #ffffff;
+            --gris-clair: #f8f9fa;
+            --gris-moyen: #e9ecef;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --shadow-hover: 0 10px 25px rgba(255,127,80,0.3);
+            --border-radius: 15px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--bleu-fonce);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        /* Bouton retour dans la navbar (à droite) */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-retour-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--orange);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 2px solid var(--orange);
+        }
+
+        .btn-retour-nav:hover {
+            background: transparent;
+            color: var(--orange);
+            transform: translateX(-3px);
+        }
+
+        .btn-retour-nav i {
+            font-size: 0.9rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--orange);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 100px auto 0;
+            padding: 20px;
+        }
+
+        /* Header */
+        .page-header {
+            background: var(--bleu-fonce);
+            border-radius: var(--border-radius);
+            padding: 50px 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+            border: 2px solid var(--orange);
+        }
+
+        .page-header h1 {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+        }
+
+        .page-header h1 span {
+            color: var(--orange);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Sommaire */
+        .sommaire {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--orange);
+        }
+
+        .sommaire h2 {
+            color: var(--bleu-fonce);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .sommaire-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .sommaire-item {
+            background: var(--gris-clair);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--orange);
+        }
+
+        .sommaire-item a {
+            text-decoration: none;
+            color: var(--bleu-fonce);
+            font-weight: 600;
+            display: block;
+        }
+
+        .sommaire-item a:hover {
+            color: var(--orange);
+        }
+
+        .sommaire-item small {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* Section titre */
+        .section-title {
+            margin: 50px 0 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--orange);
+        }
+
+        .section-title h2 {
+            color: var(--bleu-fonce);
+            font-size: 2.2rem;
+        }
+
+        .section-title h2 i {
+            color: var(--orange);
+            margin-right: 10px;
+        }
+
+        .section-title .badge {
+            background: var(--orange);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            margin-left: 15px;
+        }
+
+        /* Grilles */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Cartes */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--orange);
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-header {
+            background: var(--bleu-fonce);
+            color: white;
+            padding: 20px 25px;
+        }
+
+        .card-header h3 {
+            color: var(--orange);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .card-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        /* Blocs de code */
+        .code-block {
+            background: #1e2b3a;
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .code-header {
+            background: #0f1a24;
+            padding: 12px 20px;
+            color: #fff;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2d4055;
+        }
+
+        .code-header span {
+            color: var(--orange);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-content {
+            padding: 25px;
+            color: #e8e8e8;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .sql-keyword { color: #ff9f7c; font-weight: bold; }
+        .sql-string { color: #ffd966; }
+        .sql-number { color: #b3d9ff; }
+        .sql-comment { color: #7c9c7c; font-style: italic; }
+        .sql-function { color: #b3d9ff; }
+
+        /* Boîtes d'exemple */
+        .example-box {
+            background: var(--gris-clair);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid var(--orange);
+        }
+
+        .example-box h4 {
+            color: var(--bleu-fonce);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .example-box h4 i {
+            color: var(--orange);
+            margin-right: 8px;
+        }
+
+        .example-output {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--gris-moyen);
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: #e1f0fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .warning-box {
+            background: #fde9e9;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .tip-box {
+            background: #e8f5e9;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #2ecc71;
+        }
+
+        /* Tableaux */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background: var(--bleu-fonce);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .data-table td {
+            border: 1px solid var(--gris-moyen);
+            padding: 12px 15px;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: var(--gris-clair);
+        }
+
+        /* Exercices */
+        .exercice {
+            background: var(--gris-clair);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .exercice h4 {
+            color: var(--bleu-fonce);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .exercice h4 i {
+            color: var(--orange);
+            margin-right: 8px;
+        }
+
+        .exercice-enonce {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 3px solid var(--orange);
+        }
+
+        .btn-corrige {
+            background: var(--orange);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 10px 0;
+        }
+
+        .btn-corrige:hover {
+            background: var(--orange-hover);
+            transform: translateY(-2px);
+        }
+
+        .corrige {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid #2ecc71;
+            display: none;
+        }
+
+        .corrige.show {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bleu-fonce);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin-top: 60px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            border-top: 3px solid var(--orange);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .nav-right {
+                gap: 10px;
+            }
+            
+            .btn-retour-nav span {
+                display: none;
+            }
+            
+            .btn-retour-nav i {
+                margin-right: 0;
+            }
+
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .sommaire-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .btn-retour-nav {
+                padding: 8px 10px;
+            }
+            
+            .page-header {
+                padding: 30px 20px;
+            }
+        }
+        .btn-retour {
+        background-color: #ff7f00; /* orange be */
+        color: white; /* texte fotsy */
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center; /* texte eo afovoany */
+        display: inline-block;
+        text-decoration: none;
+        transition: 0.3s;
+        }
+        
+        .btn-retour:hover {
+        background-color: #e67300; /* orange matevina kokoa rehefa hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation avec bouton retour à droite -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">MySQL <span>cours</span></div>
+            
+            <div class="nav-right">
+                <!-- Bouton retour dans la navbar (à droite) -->
+                <a href="index.html" class="btn-retour-nav">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="#" class="active">Accueil</a></li>
+                    <li><a href="#sommaire">Sommaire</a></li>
+                    <li><a href="#bases">Bases</a></li>
+                    <li><a href="#requetes">Requêtes</a></li>
+                    <li><a href="#avance">Avancé</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>🐬 <span>MySQL A-Z</span></h1>
+            <p>Le cours le plus complet pour maîtriser MySQL, de zéro à expert. 20 chapitres détaillés avec explications, exemples et exercices corrigés.</p>
+        </div>
+
+        <!-- ======================================== -->
+        <!-- SOMMAIRE -->
+        <!-- ======================================== -->
+        <div class="sommaire" id="sommaire">
+            <h2><i class="fas fa-list"></i> Sommaire du cours</h2>
+            <div class="sommaire-grid">
+                <div class="sommaire-item"><a href="#chap1">1. Introduction à MySQL</a><br><small>Installation, configuration, premieres commandes</small></div>
+                <div class="sommaire-item"><a href="#chap2">2. Types de données</a><br><small>Numériques, chaînes, dates, espaces</small></div>
+                <div class="sommaire-item"><a href="#chap3">3. Création de bases et tables</a><br><small>CREATE DATABASE, CREATE TABLE</small></div>
+                <div class="sommaire-item"><a href="#chap4">4. Contraintes d'intégrité</a><br><small>PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL</small></div>
+                <div class="sommaire-item"><a href="#chap5">5. Insertion de données</a><br><small>INSERT, INSERT SELECT, REPLACE</small></div>
+                <div class="sommaire-item"><a href="#chap6">6. Sélection simple</a><br><small>SELECT, WHERE, ORDER BY, LIMIT</small></div>
+                <div class="sommaire-item"><a href="#chap7">7. Filtrage avancé</a><br><small>LIKE, IN, BETWEEN, IS NULL</small></div>
+                <div class="sommaire-item"><a href="#chap8">8. Mise à jour et suppression</a><br><small>UPDATE, DELETE, TRUNCATE</small></div>
+                <div class="sommaire-item"><a href="#chap9">9. Fonctions d'agrégation</a><br><small>COUNT, SUM, AVG, MIN, MAX</small></div>
+                <div class="sommaire-item"><a href="#chap10">10. Groupement</a><br><small>GROUP BY, HAVING</small></div>
+                <div class="sommaire-item"><a href="#chap11">11. Les jointures</a><br><small>INNER JOIN, LEFT JOIN, RIGHT JOIN</small></div>
+                <div class="sommaire-item"><a href="#chap12">12. Sous-requêtes</a><br><small>WHERE, FROM, SELECT, EXISTS</small></div>
+                <div class="sommaire-item"><a href="#chap13">13. Les index</a><br><small>Création, optimisation, EXPLAIN</small></div>
+                <div class="sommaire-item"><a href="#chap14">14. Les vues (VIEW)</a><br><small>CREATE VIEW, UPDATE VIEW</small></div>
+                <div class="sommaire-item"><a href="#chap15">15. Les procédures stockées</a><br><small>CREATE PROCEDURE, paramètres</small></div>
+                <div class="sommaire-item"><a href="#chap16">16. Les fonctions</a><br><small>CREATE FUNCTION, RETURNS</small></div>
+                <div class="sommaire-item"><a href="#chap17">17. Les triggers</a><br><small>BEFORE INSERT, AFTER UPDATE</small></div>
+                <div class="sommaire-item"><a href="#chap18">18. Les transactions</a><br><small>BEGIN, COMMIT, ROLLBACK, ACID</small></div>
+                <div class="sommaire-item"><a href="#chap19">19. Gestion des utilisateurs</a><br><small>CREATE USER, GRANT, REVOKE</small></div>
+                <div class="sommaire-item"><a href="#chap20">20. Sauvegarde et restauration</a><br><small>mysqldump, import/export</small></div>
+            </div>
+        </div>
+
+        <!-- ======================================== -->
+        <!-- CHAPITRE 1: INTRODUCTION À MYSQL -->
+        <!-- ======================================== -->
+        <div class="section-title" id="chap1">
+            <h2><i class="fas fa-database"></i> Chapitre 1: Introduction à MySQL <span class="badge">Débutant</span></h2>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Qu'est-ce que MySQL ?</h3>
+                <p>Système de gestion de bases de données relationnelles</p>
+            </div>
+            <div class="card-body">
+                <p><strong>MySQL</strong> est un système de gestion de bases de données relationnelles (SGBDR) open-source. C'est l'un des systèmes les plus populaires au monde, utilisé par des entreprises comme Facebook, Twitter, YouTube, etc.</p>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-check-circle"></i> Caractéristiques</h4>
+                    <ul>
+                        <li><strong>Relationnel</strong> : données organisées en tables reliées entre elles</li>
+                        <li><strong>SQL</strong> : langage de requête structuré</li>
+                        <li><strong>ACID</strong> : Atomicité, Cohérence, Isolation, Durabilité</li>
+                        <li><strong>Multi-utilisateurs</strong> : gestion des droits d'accès</li>
+                        <li><strong>Performant</strong> : optimisé pour la lecture/écriture</li>
+                        <li><strong>Multi-plateforme</strong> : Windows, Linux, macOS</li>
+                    </ul>
+                </div>
+
+                <h4>Installation</h4>
+                <div class="grid-2">
+                    <div>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Windows</span>
+                            </div>
+                            <div class="code-content">
+                                <span class="sql-comment"># Télécharger MySQL Installer</span><br>
+                                <span class="sql-comment"># https://dev.mysql.com/downloads/installer/</span><br><br>
+                                <span class="sql-comment"># Choisir :</s

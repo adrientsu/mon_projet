@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>200 Commandes Linux - Guide Complet</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #1e272e;
+            line-height: 1.7;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: #0b1a2e;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff7f50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #ff7f50;
+            color: white;
+        }
+
+        /* ===== LAYOUT PRINCIPAL ===== */
+        .main-container {
+            max-width: 1400px;
+            margin: 90px auto 0;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            background: #0b1a2e;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #ff7f50;
+        }
+
+        .sidebar-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-menu {
+            padding: 20px;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #0b1a2e;
+            margin-bottom: 10px;
+            border-left: 4px solid #ff7f50;
+            font-size: 1.1rem;
+        }
+
+        .section-links {
+            list-style: none;
+            margin-left: 10px;
+        }
+
+        .section-links li {
+            margin: 5px 0;
+        }
+
+        .section-links a {
+            display: block;
+            padding: 8px 15px 8px 25px;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .section-links a::before {
+            content: '▹';
+            position: absolute;
+            left: 5px;
+            color: #ff7f50;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .section-links a:hover {
+            background: #f8f9fa;
+            color: #ff7f50;
+            padding-left: 30px;
+        }
+
+        .section-links a:hover::before {
+            opacity: 1;
+        }
+
+        /* ===== CONTENU PRINCIPAL ===== */
+        .content-area {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* ===== EN-TÊTE ===== */
+        .page-header {
+            background: linear-gradient(135deg, #0b1a2e, #1a2f42);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #ff7f50;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ===== SECTIONS DE LEÇONS ===== */
+        .lesson-section {
+            padding: 40px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .lesson-section:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-section h2 {
+            font-size: 2.2rem;
+            color: #0b1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #ff7f50;
+            display: inline-block;
+        }
+
+        .lesson-section h3 {
+            font-size: 1.6rem;
+            color: #1e3c5a;
+            margin: 30px 0 15px;
+        }
+
+        .lesson-section p {
+            color: #2d3e50;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        /* ===== TABLEAUX DES COMMANDES ===== */
+        .commands-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .commands-table th {
+            background: #0b1a2e;
+            color: white;
+            padding: 15px 10px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .commands-table td {
+            border: 1px solid #e0e0e0;
+            padding: 12px 10px;
+            vertical-align: top;
+        }
+
+        .commands-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .commands-table tr:hover {
+            background: #e8f0fe;
+        }
+
+        .cmd-code {
+            font-family: 'Courier New', monospace;
+            background: #1e2b3a;
+            color: #ffd966;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .cmd-example {
+            font-family: 'Courier New', monospace;
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #0b1a2e;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #ff7f50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        /* ===== CARTES D'INFORMATION ===== */
+        .info-card {
+            background: #e1f0fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .warning-card {
+            background: #fde9e9;
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .tip-card {
+            background: #e8f5e9;
+            border-left: 4px solid #2ecc71;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        .code-block {
+            background: #1e2b3a;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            color: #e8e8e8;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .code-block .prompt {
+            color: #ff7f50;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0b1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .commands-table {
+                font-size: 0.85rem;
+            }
+            
+            .commands-table td {
+                padding: 8px 5px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-section {
+                padding: 20px;
+            }
+            
+            .commands-table, .commands-table thead, .commands-table tbody, .commands-table tr, .commands-table th, .commands-table td {
+                display: block;
+            }
+            
+            .commands-table tr {
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+            }
+            
+            .commands-table td {
+                border: none;
+                position: relative;
+                padding-left: 120px;
+            }
+            
+            .commands-table td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 100px;
+                font-weight: bold;
+                color: #0b1a2e;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Linux<span>Master</span></div>
+            <ul class="nav-links">
+                <li><a href="#accueil" class="active">Accueil</a></li>
+                <li><a href="#navigation">Navigation</a></li>
+                <li><a href="#fichiers">Fichiers</a></li>
+                <li><a href="#visualisation">Visualisation</a></li>
+                <li><a href="#recherche">Recherche</a></li>
+                <li><a href="#permissions">Permissions</a></li>
+                <li><a href="#processus">Processus</a></li>
+                <li><a href="#reseau">Réseau</a></li>
+                <li><a href="#compression">Compression</a></li>
+                <li><a href="#systeme">Système</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar avec ancres -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>🐧 Commandes Linux</h3>
+                <p>200 commandes essentielles</p>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="section-title">1️⃣ NAVIGATION</div>
+                    <ul class="section-links">
+                        <li><a href="#nav-1-10">Commandes 1-10</a></li>
+                        <li><a href="#nav-11-20">Commandes 11-20</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">2️⃣ FICHIERS</div>
+                    <ul class="section-links">
+                        <li><a href="#fichiers-21-30">Commandes 21-30</a></li>
+                        <li><a href="#fichiers-31-40">Commandes 31-40</a></li>
+                        <li><a href="#fichiers-41-50">Commandes 41-50</a></li>
+                        <li><a href="#fichiers-51-60">Commandes 51-60</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">3️⃣ VISUALISATION</div>
+                    <ul class="section-links">
+                        <li><a href="#visualisation-61-70">Commandes 61-70</a></li>
+                        <li><a href="#visualisation-71-80">Commandes 71-80</a></li>
+                        <li><a href="#visualisation-81-85">Commandes 81-85</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">4️⃣ RECHERCHE</div>
+                    <ul class="section-links">
+                        <li><a href="#recherche-86-95">Commandes 86-95</a></li>
+                        <li><a href="#recherche-96-105">Commandes 96-105</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">5️⃣ PERMISSIONS</div>
+                    <ul class="section-links">
+                        <li><a href="#permissions-106-115">Commandes 106-115</a></li>
+                        <li><a href="#permissions-116-125">Commandes 116-125</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">6️⃣ PROCESSUS</div>
+                    <ul class="section-links">
+                        <li><a href="#processus-126-135">Commandes 126-135</a></li>
+                        <li><a href="#processus-136-145">Commandes 136-145</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">7️⃣ RÉSEAU</div>
+                    <ul class="section-links">
+                        <li><a href="#reseau-146-155">Commandes 146-155</a></li>
+                        <li><a href="#reseau-156-165">Commandes 156-165</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">8️⃣ COMPRESSION</div>
+                    <ul class="section-links">
+                        <li><a href="#compression-166-175">Commandes 166-175</a></li>
+                        <li><a href="#compression-176-180">Commandes 176-180</a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">9️⃣ SYSTÈME</div>
+                    <ul class="section-links">
+                        <li><a href="#systeme-181-190">Commandes 181-190</a></li>
+                        <li><a href="#systeme-191-200">Commandes 191-200</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="content-area">
+            <!-- En-tête -->
+            <div class="page-header" id="accueil">
+                <h1>200 Commandes Linux Essentielles</h1>
+                <p>Guide complet avec exemples et explications détaillées pour maîtriser Linux</p>
+            </div>
+
+            <!-- Introduction -->
+            <section class="lesson-section">
+                <div class="info-card">
+                    <div class="card-title">🐧 À propos de ce guide</div>
+                    <p>Ce guide présente 200 commandes Linux essentielles classées par catégorie. Chaque commande inclut une description, un exemple concret et des explications. Que vous soyez débutant ou administrateur expérimenté, ces commandes couvrent tous les aspects de l'utilisation quotidienne de Linux.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="card-title">💡 Astuce</div>
+                    <p>Pour chaque commande, vous pouvez obtenir plus d'informations avec :</p>
+                    <div class="code-block">
+                        <span class="prompt">$</span> man nom_commande<br>
+                        <span class="prompt">$</span> nom_commande --help
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 1: NAVIGATION (Commandes 1-20) -->
+            <section class="lesson-section" id="nav-1-10">
+                <h2>1️⃣ Navigation et système - Commandes 1 à 10</h2>
+                
+                <table class="commands-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Commande</th>
+                            <th>Description</th>
+                            <th>Exemple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><span class="cmd-code">pwd</span></td>
+                            <td>Affiche le répertoire courant (Print Working Directory)</td>
+                            <td><span class="cmd-example">pwd</span> → <code>/home/utilisateur</code></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><span class="cmd-code">cd</span></td>
+                            <td>Change de répertoire (Change Directory)</td>
+                            <td><span class="cmd-example">cd /var/log</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><span class="cmd-code">cd ..</span></td>
+                            <td>Remonte au répertoire parent</td>
+                            <td><span class="cmd-example">cd ..</span></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><span class="cmd-code">cd ~</span></td>
+                            <td>Va dans le répertoire personnel de l'utilisateur</td>
+                            <td><span class="cmd-example">cd ~</span> ou <span class="cmd-example">cd</span></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><span class="cmd-code">cd -</span></td>
+                            <td>Retourne au répertoire précédent</td>
+                            <td><span class="cmd-example">cd -</span></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><span class="cmd-code">ls</span></td>
+                            <td>Liste les fichiers et dossiers (List)</td>
+                            <td><span class="cmd-example">ls</span></td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><span class="cmd-code">ls -l</span></td>
+                            <td>Liste détaillée avec permissions, taille, date</td>
+                            <td><span class="cmd-example">ls -l</span></td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td><span class="cmd-code">ls -a</span></td>
+                            <td>Liste tous les fichiers, y compris les cachés (commençant par .)</td>
+                            <td><span class="cmd-example">ls -a</span></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td><span class="cmd-code">ls -la</span></td>
+                            <td>Liste détaillée de tous les fichiers (équivalent à ls -l -a)</td>
+                            <td><span class="cmd-example">ls -la</span></td>
+                        </tr>
+                        <tr>
+                    

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours PostgreSQL et SQL Complet - De Zéro à Expert</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #1e272e;
+            line-height: 1.7;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: #0b1a2e;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff7f50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #ff7f50;
+            color: white;
+        }
+
+        /* ===== LAYOUT PRINCIPAL ===== */
+        .main-container {
+            max-width: 1400px;
+            margin: 90px auto 0;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            background: #0b1a2e;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #ff7f50;
+        }
+
+        .sidebar-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-menu {
+            padding: 20px;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #0b1a2e;
+            margin-bottom: 10px;
+            border-left: 4px solid #ff7f50;
+            font-size: 1.1rem;
+        }
+
+        .section-links {
+            list-style: none;
+            margin-left: 10px;
+        }
+
+        .section-links li {
+            margin: 5px 0;
+        }
+
+        .section-links a {
+            display: block;
+            padding: 8px 15px 8px 25px;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .section-links a::before {
+            content: '▹';
+            position: absolute;
+            left: 5px;
+            color: #ff7f50;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .section-links a:hover {
+            background: #f8f9fa;
+            color: #ff7f50;
+            padding-left: 30px;
+        }
+
+        .section-links a:hover::before {
+            opacity: 1;
+        }
+
+        /* ===== CONTENU PRINCIPAL ===== */
+        .content-area {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* ===== EN-TÊTE ===== */
+        .page-header {
+            background: linear-gradient(135deg, #0b1a2e, #1a2f42);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #ff7f50;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ===== SECTIONS DE LEÇONS ===== */
+        .lesson-section {
+            padding: 40px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .lesson-section:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-section h2 {
+            font-size: 2.2rem;
+            color: #0b1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #ff7f50;
+            display: inline-block;
+        }
+
+        .lesson-section h3 {
+            font-size: 1.6rem;
+            color: #1e3c5a;
+            margin: 30px 0 15px;
+        }
+
+        .lesson-section h4 {
+            font-size: 1.2rem;
+            color: #2d4a6e;
+            margin: 20px 0 10px;
+        }
+
+        .lesson-section p {
+            color: #2d3e50;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .lesson-section ul, 
+        .lesson-section ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+            color: #2d3e50;
+        }
+
+        .lesson-section li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== BLOCS DE CODE ===== */
+        .code-block {
+            background: #1e2b3a;
+            border-radius: 12px;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .code-header {
+            background: #0f1a24;
+            padding: 10px 20px;
+            color: #fff;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2d4055;
+        }
+
+        .code-header span {
+            color: #ff7f50;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-header .badge {
+            background: #ff7f50;
+            color: #0b1a2e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .code-block pre {
+            padding: 20px;
+            color: #e8e8e8;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Syntax Highlighting pour SQL */
+        .sql-keyword { color: #ff9f7c; font-weight: bold; }
+        .sql-function { color: #b3d9ff; }
+        .sql-string { color: #ffd966; }
+        .sql-number { color: #b3d9ff; }
+        .sql-comment { color: #7c9c7c; }
+        .sql-operator { color: #ff7f50; }
+        .sql-table { color: #ff9f7c; }
+        .sql-column { color: #e8e8e8; }
+
+        /* ===== CARTES D'INFORMATION ===== */
+        .info-card {
+            background: #e1f0fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .warning-card {
+            background: #fde9e9;
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .tip-card {
+            background: #e8f5e9;
+            border-left: 4px solid #2ecc71;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== EXEMPLES DE RÉSULTATS ===== */
+        .demo-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .demo-title {
+            font-weight: 700;
+            color: #0b1a2e;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .sql-output {
+            background: #ffffff;
+            border: 1px solid #ff7f50;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+        }
+
+        .result-table th {
+            background: #ff7f50;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .result-table td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+        }
+
+        .result-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* ===== TABLEAUX ===== */
+        .table-demo {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table-demo th,
+        .table-demo td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table-demo th {
+            background: #0b1a2e;
+            color: white;
+        }
+
+        .table-demo tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0b1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-section {
+                padding: 20px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lesson-section {
+            animation: fadeIn 0.5s ease-out;
+        }
+        .btn-retour {
+        background-color: #ff7f00; /* orange be */
+        color: white; /* texte fotsy */
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center; /* texte eo afovoany */
+        display: inline-block;
+        text-decoration: none;
+        transition: 0.3s;
+        }
+        
+        .btn-retour:hover {
+        background-color: #e67300; /* orange matevina kokoa rehefa hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">SQL-<span>Master</span></div>
+            <ul class="nav-links">
+                <li><a href="#accueil" class="active">Accueil</a></li>
+                <li><a href="#bases">Bases</a></li>
+                <li><a href="#requetes">Requêtes</a></li>
+                <li><a href="#jointures">Jointures</a></li>
+                <li><a href="#fonctions">Fonctions</a></li>
+                <li><a href="#avance">Avancé</a></li>
+                <li><a href="#postgresql">PostgreSQL</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar avec ancres -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>🐘 Cours SQL & PostgreSQL</h3>
+                <p>20 leçons complètes</p>
+            </div>
+            
+            <div class="sidebar-menu">
+                <!-- Section 1: Les bases -->
+                <div class="menu-section">
+                    <div class="section-title">🔰 LES BASES SQL</div>
+                    <ul class="section-links">
+                        <li><a href="#lecon1">1. Introduction aux bases de données</a></li>
+                        <li><a href="#lecon2">2. Installation PostgreSQL</a></li>
+                        <li><a href="#lecon3">3. Création de tables (CREATE)</a></li>
+                        <li><a href="#lecon4">4. Types de données PostgreSQL</a></li>
+                        <li><a href="#lecon5">5. Contraintes (PRIMARY KEY, FOREIGN KEY)</a></li>
+                        <li><a href="#lecon6">6. Insertion de données (INSERT)</a></li>
+                        <li><a href="#lecon7">7. Sélection simple (SELECT)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Section 2: Requêtes avancées -->
+                <div class="menu-section">
+                    <div class="section-title">📊 REQUÊTES AVANCÉES</div>
+                    <ul class="section-links">
+                        <li><a href="#lecon8">8. Filtrage (WHERE, LIKE, IN)</a></li>
+                        <li><a href="#lecon9">9. Tri et limite (ORDER BY, LIMIT)</a></li>
+                        <li><a href="#lecon10">10. Fonctions d'agrégation (COUNT, SUM, AVG)</a></li>
+                        <li><a href="#lecon11">11. Groupement (GROUP BY, HAVING)</a></li>
+                        <li><a href="#lecon12">12. Mise à jour (UPDATE) et suppression (DELETE)</a></li>
+                        <li><a href="#lecon13">13. Sous-requêtes</a></li>
+                    </ul>
+                </div>
+
+                <!-- Section 3: PostgreSQL avancé -->
+                <div class="menu-section">
+                    <div class="section-title">⚡ POSTGRESQL AVANCÉ</div>
+                    <ul class="section-links">
+                        <li><a href="#lecon14">14. Les jointures (INNER, LEFT, RIGHT)</a></li>
+                        <li><a href="#lecon15">15. Index et performances</a></li>
+                        <li><a href="#lecon16">16. Vues (VIEW) et vues matérialisées</a></li>
+                        <li><a href="#lecon17">17. Transactions et isolation</a></li>
+                        <li><a href="#lecon18">18. Fonctions et procédures stockées</a></li>
+                        <li><a href="#lecon19">19. Triggers (déclencheurs)</a></li>
+                        <li><a href="#lecon20">20. Projet final - Base de données complète</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="content-area">
+            <!-- En-tête -->
+            <div class="page-header" id="accueil">
+                <h1>Maîtrisez SQL et PostgreSQL de A à Z</h1>
+                <p>20 leçons détaillées avec exemples pratiques pour devenir expert en bases de données</p>
+            </div>
+
+            <!-- LEÇON 1: Introduction aux bases de données -->
+            <section class="lesson-section" id="lecon1">
+                <h2>🐘 Leçon 1: Introduction aux bases de données</h2>
+                
+                <h3>Qu'est-ce qu'une base de données ?</h3>
+                <p>Une base de données est un système organisé pour stocker, gérer et récupérer des données de manière efficace. PostgreSQL est un système de gestion de base de données relationnelle (SGBDR) open-source très puissant.</p>
+
+                <div class="info-card">
+                    <div class="card-title">💡 Pourquoi PostgreSQL ?</div>
+                    <ul>
+                        <li><strong>Open-source</strong> et gratuit</li>
+                        <li><strong>Conforme aux standards SQL</strong></li>
+                        <li><strong>Performant</strong> et extensible</li>
+                        <li><strong>Supporte JSON</strong> et les données non-structurées</li>
+                        <li><strong>Transactions ACID</strong> (Atomicité, Cohérence, Isolation, Durabilité)</li>
+                    </ul>
+                </div>
+
+                <h3>Structure d'une base de données relationnelle</h3>
+                <p>Une base de données relationnelle organise les données en tables, composées de lignes et de colonnes.</p>
+
+                <div class="demo-box">
+                    <div class="demo-title">Exemple de table "utilisateurs" :</div>
+                    <table class="result-table">
+                        <thead>
+                            <tr>
+                                <th>id (PK)</th>
+                                <th>nom</th>
+                                <th>email</th>
+                                <th>age</th>
+                                <th>ville</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Dupont</td>
+                                <td>jean@email.com</td>
+                                <td>25</td>
+                                <td>Paris</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Martin</td>
+                                <td>sophie@email.com</td>
+                                <td>30</td>
+                                <td>Lyon</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Bernard</td>
+                                <td>pierre@email.com</td>
+                                <td>22</td>
+                                <td>Marseille</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Vocabulaire SQL</h3>
+                <table class="table-demo">
+                    <thead>
+                        <tr>
+                            <th>Terme</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Base de données</td>
+                            <td>Ensemble de tables</td>
+                        </tr>
+                        <tr>
+                            <td>Table</td>
+                            <td>Structure organisée en lignes et colonnes</td>
+                        </tr>
+                        <tr>
+                            <td>Colonne (champ)</td>
+                            <td>Attribut d'une table</td>
+                        </tr>
+                        <tr>
+                            <td>Ligne (enregistrement)</td>
+                            <td>Instance de données</td>
+                        </tr>
+                        <tr>
+                            <td>Clé primaire (PK)</td>
+                            <td>Identifiant unique d'une ligne</td>
+                        </tr>
+                        <tr>
+                            <td>Clé étrangère (FK)</td>
+                            <td>Référence vers une autre table</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+   

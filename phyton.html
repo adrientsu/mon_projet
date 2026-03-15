@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Python A-Z - Cours complet et détaillé</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        :root {
+            --bleu-fonce: #0b1a2e;
+            --orange: #ff7f50;
+            --orange-hover: #ff6b6b;
+            --blanc: #ffffff;
+            --gris-clair: #f8f9fa;
+            --gris-moyen: #e9ecef;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --shadow-hover: 0 10px 25px rgba(255,127,80,0.3);
+            --border-radius: 15px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--bleu-fonce);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        /* Bouton retour dans la navbar (à droite) */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-retour-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--orange);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 2px solid var(--orange);
+        }
+
+        .btn-retour-nav:hover {
+            background: transparent;
+            color: var(--orange);
+            transform: translateX(-3px);
+        }
+
+        .btn-retour-nav i {
+            font-size: 0.9rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--orange);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 100px auto 0;
+            padding: 20px;
+        }
+
+        /* Header */
+        .page-header {
+            background: var(--bleu-fonce);
+            border-radius: var(--border-radius);
+            padding: 50px 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+            border: 2px solid var(--orange);
+        }
+
+        .page-header h1 {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+        }
+
+        .page-header h1 span {
+            color: var(--orange);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Sommaire */
+        .sommaire {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--orange);
+        }
+
+        .sommaire h2 {
+            color: var(--bleu-fonce);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .sommaire-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .sommaire-item {
+            background: var(--gris-clair);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--orange);
+        }
+
+        .sommaire-item a {
+            text-decoration: none;
+            color: var(--bleu-fonce);
+            font-weight: 600;
+            display: block;
+        }
+
+        .sommaire-item a:hover {
+            color: var(--orange);
+        }
+
+        .sommaire-item small {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* Section titre */
+        .section-title {
+            margin: 50px 0 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--orange);
+        }
+
+        .section-title h2 {
+            color: var(--bleu-fonce);
+            font-size: 2.2rem;
+        }
+
+        .section-title h2 i {
+            color: var(--orange);
+            margin-right: 10px;
+        }
+
+        .section-title .badge {
+            background: var(--orange);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            margin-left: 15px;
+        }
+
+        /* Grilles */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Cartes */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--orange);
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-header {
+            background: var(--bleu-fonce);
+            color: white;
+            padding: 20px 25px;
+        }
+
+        .card-header h3 {
+            color: var(--orange);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .card-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        /* Blocs de code */
+        .code-block {
+            background: #1e2b3a;
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .code-header {
+            background: #0f1a24;
+            padding: 12px 20px;
+            color: #fff;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2d4055;
+        }
+
+        .code-header span {
+            color: var(--orange);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-content {
+            padding: 25px;
+            color: #e8e8e8;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .keyword { color: #ff9f7c; font-weight: bold; }
+        .string { color: #ffd966; }
+        .number { color: #b3d9ff; }
+        .comment { color: #7c9c7c; font-style: italic; }
+        .function { color: #ff9f7c; }
+        .decorator { color: #b3d9ff; }
+
+        /* Boîtes d'exemple */
+        .example-box {
+            background: var(--gris-clair);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid var(--orange);
+        }
+
+        .example-box h4 {
+            color: var(--bleu-fonce);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .example-box h4 i {
+            color: var(--orange);
+            margin-right: 8px;
+        }
+
+        .example-output {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--gris-moyen);
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: #e1f0fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .warning-box {
+            background: #fde9e9;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .tip-box {
+            background: #e8f5e9;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #2ecc71;
+        }
+
+        /* Tableaux */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background: var(--bleu-fonce);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .data-table td {
+            border: 1px solid var(--gris-moyen);
+            padding: 12px 15px;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: var(--gris-clair);
+        }
+
+        /* Exercices */
+        .exercice {
+            background: var(--gris-clair);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .exercice h4 {
+            color: var(--bleu-fonce);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .exercice h4 i {
+            color: var(--orange);
+            margin-right: 8px;
+        }
+
+        .exercice-enonce {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 3px solid var(--orange);
+        }
+
+        .btn-corrige {
+            background: var(--orange);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 10px 0;
+        }
+
+        .btn-corrige:hover {
+            background: var(--orange-hover);
+            transform: translateY(-2px);
+        }
+
+        .corrige {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid #2ecc71;
+            display: none;
+        }
+
+        .corrige.show {
+            display: block;
+        }
+
+        /* Boutons */
+        .btn {
+            display: inline-block;
+            background: var(--orange);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: var(--orange-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bleu-fonce);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin-top: 60px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            border-top: 3px solid var(--orange);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .nav-right {
+                gap: 10px;
+            }
+            
+            .btn-retour-nav span {
+                display: none;
+            }
+            
+            .btn-retour-nav i {
+                margin-right: 0;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .sommaire-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .btn-retour-nav {
+                padding: 8px 10px;
+            }
+            
+            .page-header {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation avec bouton retour à droite -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Python <span>A-Z</span></div>
+            
+            <div class="nav-right">
+                <!-- Bouton retour dans la navbar (à droite) -->
+                <a href="index.html" class="btn-retour-nav">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="#" class="active">Accueil</a></li>
+                    <li><a href="#sommaire">Sommaire</a></li>
+                    <li><a href="#bases">Bases</a></li>
+                    <li><a href="#avance">Avancé</a></li>
+                    <li><a href="#exercices">Exercices</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>🐍 <span>Python A-Z</span></h1>
+            <p>Le cours le plus complet pour maîtriser Python, de zéro à expert. 20 chapitres détaillés avec explications, exemples et exercices corrigés.</p>
+        </div>
+
+        <!-- ======================================== -->
+        <!-- SOMMAIRE -->
+        <!-- ======================================== -->
+        <div class="sommaire" id="sommaire">
+            <h2><i class="fas fa-list"></i> Sommaire du cours</h2>
+            <div class="sommaire-grid">
+                <div class="sommaire-item"><a href="#chap1">1. Introduction à Python</a><br><small>Installation, premier programme</small></div>
+                <div class="sommaire-item"><a href="#chap2">2. Variables et types</a><br><small>int, float, str, bool</small></div>
+                <div class="sommaire-item"><a href="#chap3">3. Opérateurs</a><br><small>Arithmétiques, comparaison, logiques</small></div>
+                <div class="sommaire-item"><a href="#chap4">4. Structures conditionnelles</a><br><small>if, elif, else, ternaire</small></div>
+                <div class="sommaire-item"><a href="#chap5">5. Boucles</a><br><small>for, while, range, break, continue</small></div>
+                <div class="sommaire-item"><a href="#chap6">6. Listes</a><br><small>Méthodes, slicing, compréhension</small></div>
+                <div class="sommaire-item"><a href="#chap7">7. Tuples et sets</a><br><small>Immuabilité, ensembles</small></div>
+                <div class="sommaire-item"><a href="#chap8">8. Dictionnaires</a><br><small>Clés/valeurs, méthodes</small></div>
+                <div class="sommaire-item"><a href="#chap9">9. Chaînes de caractères</a><br><small>Méthodes, formatage</small></div>
+                <div class="sommaire-item"><a href="#chap10">10. Fonctions</a><br><small>Définition, paramètres, retour</small></div>
+                <div class="sommaire-item"><a href="#chap11">11. Portée des variables</a><br><small>globale, locale, nonlocal</small></div>
+                <div class="sommaire-item"><a href="#chap12">12. Modules et packages</a><br><small>import, pip, création</small></div>
+                <div class="sommaire-item"><a href="#chap13">13. Gestion des erreurs</a><br><small>try, except, finally, raise</small></div>
+                <div class="sommaire-item"><a href="#chap14">14. Fichiers</a><br><small>Lecture, écriture, context manager</small></div>
+                <div class="sommaire-item"><a href="#chap15">15. Programmation Orientée Objet</a><br><small>Classes, objets, méthodes</small></div>
+                <div class="sommaire-item"><a href="#chap16">16. Héritage et polymorphisme</a><br><small>super, surcharge</small></div>
+                <div class="sommaire-item"><a href="#chap17">17. Itérateurs et générateurs</a><br><small>yield, next</small></div>
+                <div class="sommaire-item"><a href="#chap18">18. Décorateurs</a><br><small>Fonctions avancées</small></div>
+                <div class="sommaire-item"><a href="#chap19">19. Programmation fonctionnelle</a><br><small>lambda, map, filter, reduce</small></div>
+                <div class="sommaire-item"><a href="#chap20">20. Projet final</a><br><small>Application complète</small></div>
+            </div>
+        </div>
+
+        <!-- ======================================== -->
+        <!-- CHAPITRE 1: INTRODUCTION -->
+        <!-- ======================================== -->
+        <div class="section-title" id="chap1">
+            <h2><i class="fas fa-play"></i> Chapitre 1: Introduction à Python <span class="badge">Débutant</span></h2>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Qu'est-ce que Python ?</h3>
+                <p>Histoire, philosophie et utilisations</p>
+            </div>
+            <div class="card-body">
+                <p>Python est un langage de programmation interprété, créé par <strong>Guido van Rossum</strong> en 1991. Son nom vient de la série télévisée "Monty Python's Flying Circus".</p>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-check-circle"></i> Caractéristiques principales</h4>
+                    <ul>
+                        <li><strong>Interprété</strong> : pas besoin de compilation</li>
+                        <li><strong>Orienté objet</strong> : tout est objet</li>
+                        <li><strong>Typage dynamique</strong> : pas de déclaration de types</li>
+                        <li><strong>Multi-paradigme</strong> : impératif, fonctionnel, objet</li>
+                        <li><strong>Multi-plateforme</strong> : Windows, Mac, Linux</li>
+                        <li><strong>Grande bibliothèque standard</strong> : "batteries included"</li>
+                    </ul>
+                </div>
+
+                <h4>Domaines d'application</h4>
+                <div class="grid-2">
+                    <ul>
+                        <li><i class="fas fa-globe" style="color: var(--orange);"></i> Développement web (Django, Flask)</li>
+                        <li><i class="fas fa-chart-line" style="color: var(--orange);"></i> Data science (Pandas, NumPy)</li>
+                        <li><i class="fas fa-brain" style="color: var(--orange);"></i> Intelligence artificielle (TensorFlow)</li>
+                    </ul>
+                    <ul>
+                        <li><i class="fas fa-robot" style="color: var(--orange);"></i> Automatisation (scripts)</li>
+                        <li><i class="fas fa-gamepad" style="color: var(--orange);"></i> Jeux (Pygame)</li>
+                        <li><i class="fas fa-mobile-alt" style="color: var(--orange);"></i> Applications mobiles (Kivy)</li>
+                    </ul>
+                </div>
+
+                <h4>Installation</h4>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Terminal</span>
+  

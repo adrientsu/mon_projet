@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide - Tous les cours réunis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* En-tête */
+        .header {
+            background: linear-gradient(135deg, #0b1a2e, #1a2f42);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .header h1 span {
+            color: #ff7f50;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Statistiques */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #ff7f50;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ff7f50;
+        }
+
+        .stat-label {
+            color: #0b1a2e;
+            font-size: 1rem;
+        }
+
+        /* Navigation des cours */
+        .courses-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            border-left: 4px solid #ff7f50;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255,127,80,0.3);
+        }
+
+        .course-header {
+            background: #0b1a2e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .course-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .course-header h3 {
+            color: #ff7f50;
+        }
+
+        .course-body {
+            padding: 20px;
+        }
+
+        .course-body p {
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            color: #718096;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        /* Section d'aide */
+        .help-section {
+            padding: 40px;
+            background: #f8f9fa;
+            border-top: 2px solid #ff7f50;
+            border-bottom: 2px solid #ff7f50;
+        }
+
+        .help-section h2 {
+            color: #0b1a2e;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .faq-item h4 {
+            color: #ff7f50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-item p {
+            color: #4a5568;
+        }
+
+        /* Guide d'utilisation */
+        .guide-section {
+            padding: 40px;
+        }
+
+        .guide-section h2 {
+            color: #0b1a2e;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .step-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .step-box {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #ff7f50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+
+        .step-box h4 {
+            color: #0b1a2e;
+            margin-bottom: 10px;
+        }
+
+        .step-box p {
+            color: #4a5568;
+        }
+
+        /* Ressources */
+        .resources-section {
+            padding: 40px;
+            background: #f8f9fa;
+            border-top: 2px solid #ff7f50;
+        }
+
+        .resources-section h2 {
+            color: #0b1a2e;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .resource-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .resource-tag {
+            background: white;
+            color: #0b1a2e;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #ff7f50;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .resource-tag:hover {
+            background: #ff7f50;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            background: #0b1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .footer-links a:hover {
+            background: #ff7f50;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .courses-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+        .btn-retour {
+        background-color: #ff7f00; /* orange be */
+        color: white; /* texte fotsy */
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center; /* texte eo afovoany */
+        display: inline-block;
+        text-decoration: none;
+        transition: 0.3s;
+        }
+        
+        .btn-retour:hover {
+        background-color: #e67300; /* orange matevina kokoa rehefa hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- En-tête -->
+        <div class="header">
+            <h1>📚 <span>Aide & Ressources</span></h1>
+            <p>Tous les cours que nous avons créés ensemble, réunis en un seul endroit</p>
+        </div>
+
+        <!-- Statistiques -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Cours complets</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">140+</div>
+                <div class="stat-label">Leçons</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Exemples de code</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">200</div>
+                <div class="stat-label">Commandes Linux</div>
+            </div>
+        </div>
+
+        <!-- Liste des cours -->
+        <div class="courses-nav">
+            <div class="course-card" onclick="window.location.href='#cours-html'">
+                <div class="course-header">
+                    <div class="course-icon">🌐</div>
+                    <h3>HTML Complet</h3>
+                </div>
+                <div class="course-body">
+                    <p>Structure, balises, formulaires, tableaux, sémantique, SEO...</p>
+                    <div class="course-stats">
+                        <span>📚 20 leçons</span>
+                        <span>⭐ Débutant</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card" onclick="window.location.href='#cours-css'">
+                <div class="course-header">
+                    <div class="course-icon">🎨</div>
+                    <h3>CSS Complet</h3>
+                </div>
+                <div class="course-body">
+                    <p>Sélecteurs, flexbox, grid, animations, responsive design...</p>
+                    <div class="course-stats">
+                        <span>📚 20 leçons</span>
+                        <span>⭐ Débutant</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card" onclick="window.location.href='#cours-js'">
+                <div class="course-header">
+                    <div class="course-icon">⚡</div>
+                    <h3>JavaScript</h3>
+                </div>
+                <div class="course-body">
+                    <p>Variables, fonctions, DOM, événements, async, API...</p>
+                    <div class="course-stats">
+                        <span>📚 20 leçons</span>
+                        <span>⭐ Intermédiaire</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card" onclick="window.location.href='#cours-php'">
+                <div class="course-header">
+                    <div class="course-icon">🐘</div>
+                    <h3>PHP</h3>
+                </div>
+                <div class="course-body">
+                    <p>Back-end, formulaires, sessions, PDO, POO, sécurité...</p>
+                    <div class="course-stats">
+                        <span>📚 20 leçons</span>
+                        <span>⭐ Intermédiaire</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card" onclick="window.location.href='#cours-sql'">
+                <div class="course-header">
+                    <div class="course-icon">🗄️</div>
+                    <h3>PostgreSQL/SQL</h3>
+                </div>
+                <div class="course-body">
+                    <p>Requêtes, jointures, index, transactions, PL/pgSQL...</p>
+                    <div class="course-stats">
+                        <span>📚 20 leçons</span>
+                        <span>⭐ Intermédiaire</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card" onclick="window.location.href='#cours-reseau'">
+                <div class="course-header">
+                    <div class="course-icon">🌐</div>
+                    <h3>Administration Réseau</h3>
+                </div>
+                <div class="course-body">
+                    <p>IP, routage, switches, firewall, VPN, Cisco...</p>
+                    <div class="course-stats">
+                        <span>📚 20 leçons</span>
+                        <span>⭐ Avancé</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card" onclick="window.location.href='#cours-linux'">
+                <div class="course-header">
+                    <div class="course-icon">🐧</div>
+                    <h3>Commandes Linux</h3>
+                </div>
+                <div class="course-body">
+                    <p>200 commandes essentielles avec exemples</p>
+                    <div class="course-stats">
+                        <span>📚 200 cmd</span>
+                        <span>⭐ Tous niveaux</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card" onclick="window.location.href='#cours-wamp'">
+                <div class="course-header">
+                    <div class="course-icon">⚙️</div>
+                    <h3>WAMP & XAMPP</h3>
+                </div>
+                <div class="course-body">
+                    <p>Installation, configuration, dépannage</p>
+                    <div class="course-stats">
+                        <span>📚 Guide complet</span>
+                        <span>⭐ Débutant</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Aide / FAQ -->
+        <div class="help-section">
+            <h2>❓ Questions fréquentes</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>📖 Comment utiliser les cours ?</h4>
+                    <p>Chaque cours est un fichier HTML complet. Téléchargez-le et ouvrez-le dans votre navigateur. Tous les exemples et explications sont inclus.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>💻 Puis-je exécuter le code ?</h4>
+                    <p>Pour HTML/CSS, oui directement. Pour PHP, vous avez besoin d'un serveur local (WAMP/XAMPP). Le cours sur WAMP/XAMPP vous guide pour l'installation.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>📱 Les cours sont-ils responsives ?</h4>
+                    <p>Oui, tous les cours s'adaptent aux mobiles et tablettes. Vous pouvez apprendre sur n'importe quel appareil.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>🆓 C'est gratuit ?</h4>
+                    <p>Oui, 100% gratuit ! Tous les cours sont libres d'utilisation pour votre apprentissage personnel.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>🔧 Comment exécuter PHP ?</h4>
+                    <p>Installez WAMP (Windows) ou XAMPP (tous OS). Suivez le guide dédié dans la section des cours.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>🎓 Par où commencer ?</h4>
+                    <p>Si vous êtes débutant : HTML → CSS → JavaScript → PHP. Si vous avez déjà des bases, choisissez le cours qui vous intéresse.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guide d'utilisation -->
+        <div class="guide-section">
+            <h2>📋 Guide d'utilisation</h2>
+            <div class="step-container">
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <h4>Choisissez un cours</h4>
+                    <p>Cliquez sur la carte du cours qui vous intéresse pour accéder au contenu</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <h4>Lisez les leçons</h4>
+                    <p>Chaque cours contient 20 leçons complètes avec explications détaillées</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <h4>Testez les exemples</h4>
+                    <p>Copiez les exemples de code et modifiez-les pour comprendre le fonctionnement</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">4</div>
+                    <h4>Pratiquez</h4>
+                    <p>Créez vos propres projets pour mettre en pratique ce que vous avez appris</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ressources supplémentaires -->
+        <div class="resources-section">
+            <h2>🔗 Ressources utiles</h2>
+            <div class="resource-tags">
+                <span class="resource-tag">MDN Web Docs</span>
+                <span class="resource-tag">W3Schools</span>
+                <span class="resource-tag">Stack Overflow</span>
+                <span class="resource-tag">GitHub</span>
+                <span class="resource-tag">VS Code</span>
+                <span class="resource-tag">php.net</span>
+                <span class="resource-tag">PostgreSQL</span>
+                <span class="resource-tag">Cisco NetAcad</span>
+            </div>
+        </div>
+
+        <!-- Tableau récapitulatif -->
+        <div style="padding: 40px; background: white;">
+            <h2 style="color: #0b1a2e; margin-bottom: 30px; text-align: center;">📊 Récapitulatif des cours</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #0b1a2e; color: white;">
+                        <th style="padding: 15px; text-align: left;">Cours</th>
+                        <th style="padding: 15px; text-align: left;">Leçons</th>
+                        <th style="padding: 15px; text-align: left;">Sujets principaux</th>
+                        <th style="padding: 15px; text-align: left;">Niveau</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 15px;"><strong>HTML</strong></td>
+                        <td style="padding: 15px;">20</td>
+                        <td style="padding: 15px;">Structure, balises, formulaires, SEO</td>
+                        <td style="padding: 15px;">Débutant</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #f8f9fa;">
+                        <td style="padding: 15px;"><strong>CSS</strong></td>
+                        <td style="padding: 15px;">20</td>
+                        <td style="padding: 15px;">Styles, flexbox, grid, animations</td>
+                        <td style="padding: 15px;">Débutant</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 15px;"><strong>JavaScript</strong></td>
+                        <td style="padding: 15px;">20</td>
+                        <td style="padding: 15px;">Variables, DOM, événements, API</td>
+                        <td style="padding: 15px;">Intermédiaire</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #f8f9fa;">
+                        <td style="padding: 15px;"><strong>PHP</strong></td>
+                        <td style="padding: 15px;">20</td>
+                        <td style="padding: 15px;">Back-end, sessions, PDO, POO</td>
+                        <td style="padding: 15px;">Intermédiaire</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 15px;"><strong>PostgreSQL/SQL</strong></td>
+                        <td style="padding: 15px;">20</td>
+                        <td style="padding: 15px;">Requêtes, jointures, index</td>
+                        <td style="padding: 15px;">Intermédiaire</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #f8f9fa;">
+                        <td style="padding: 15
